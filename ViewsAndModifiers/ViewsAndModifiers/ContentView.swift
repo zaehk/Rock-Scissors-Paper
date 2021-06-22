@@ -78,17 +78,17 @@ struct ContentView: View {
                 
                 Section(header: Text("Machine choice")) {
                     BlurredLabel(blurTitle: choices[cpuChoice].rawValue)
-                }
+                }.font(.headline)
                 
                 
                 Section(header: Text("The user must")) {
                     Text(shouldWin ? "WIN" : "LOSE")
                         .frame(width: 100, height: 50, alignment: .center)
                         .background(shouldWin ? Color.green : Color.red)
+                        .foregroundColor(.white)
                         .cornerRadius(10)
-                        .frame(maxWidth: .infinity)
                     
-                }
+                }.font(.headline)
                 
                 Section(header: Text("User selection")) {
                     List{
@@ -103,15 +103,24 @@ struct ContentView: View {
                             }, label: {
                                 HStack{
                                     Image(userChoice.rawValue.lowercased())
-                                    Text(userChoice.rawValue)
+                                    Text(userChoice.rawValue).foregroundColor(.black)
                                 }
                             })
                         })
                     }
-                }
+                }.font(.headline)
                 
-                Text("POINTS: \(points)")
-                Text("CURRENT GAME \(game)")
+                HStack{
+                    Text("Total Points:")
+                    Text("\(points)")
+                    
+                }
+                .font(.title2)
+                HStack{
+                    Text("Current game:")
+                    Text("\(game)")
+                }
+                .font(.title2)
             }
         }
         
