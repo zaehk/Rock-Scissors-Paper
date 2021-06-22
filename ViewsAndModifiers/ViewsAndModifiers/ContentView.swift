@@ -22,6 +22,10 @@ enum RockScissorsPaper: String {
     case scissors = "Scissors"
     case paper = "Paper"
     
+    var icon: UIImage? {
+        UIImage.init(named: self.rawValue)
+    }
+    
     func winsOver(game: RockScissorsPaper) -> GameState {
         switch (self, game) {
         case (.rock, .rock):     return .draw
@@ -46,7 +50,7 @@ enum GameState {
     
     func result(shouldWin: Bool)-> Int {
         switch self {
-
+        
         case .win:
             return shouldWin ? 1 : -1
         case .lose:
@@ -83,21 +87,25 @@ struct ContentView: View {
                         .background(shouldWin ? Color.green : Color.red)
                         .cornerRadius(10)
                         .frame(maxWidth: .infinity)
-                        
+                    
                 }
                 
                 Section(header: Text("User selection")) {
                     List{
                         ForEach(choices, id: \.self, content: { userChoice in
-                            Button(userChoice.rawValue, action: {
+                            Button(action: {
                                 
                                 points += userChoice.winsOver(game: choices[cpuChoice]).result(shouldWin: shouldWin)
                                 
                                 game += 1
                                 cpuChoice = Int.random(in: 0...2)
                                 shouldWin = Bool.random()
+                            }, label: {
+                                HStack{
+                                    Image(userChoice.rawValue.lowercased())
+                                    Text(userChoice.rawValue)
+                                }
                             })
-                            
                         })
                     }
                 }
